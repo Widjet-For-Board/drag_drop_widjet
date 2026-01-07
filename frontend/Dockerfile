@@ -1,22 +1,16 @@
-# Build stage
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
 WORKDIR /app
 
-# Копируем package файлы
 COPY package*.json ./
 
-# Устанавливаем ВСЕ зависимости (включая dev, они нужны для tsc и vite build)
-RUN npm ci
+RUN npm ci --include=dev
 
-# Копируем код
+RUN ls -la node_modules/.bin/vite || echo "vite not found in .bin"
+RUN npx vite --version
+
 COPY . .
 
-# Собираем production
-RUN npm run build
+EXPOSE 3000
 
-# Production stage — суперлёгкий сервер (~15-20 MB)
-FROM pierrezemb/gostatic:latest
-COPY --from=builder /app/dist /srv
-ENV GO_STATIC_FALLBACK_FILE=/srv/index.html
-EXPOSE 8043
-CMD ["-fallback", "/srv/index.html"]
+CMD ["npx", "vite", "--host", "0.0.0.0", "--port", "3000"]

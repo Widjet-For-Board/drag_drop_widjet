@@ -23,10 +23,13 @@ services:
       - ./backend:/app
 
   frontend:
-    build: ./frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
-      - "3000:80"
-    restart: unless-stopped
+      - "3000:3000"
+    depends_on:
+      - backend
 
 
   db:
