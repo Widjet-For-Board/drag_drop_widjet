@@ -2,11 +2,11 @@ version: '3.9'
 
 services:
   backend:
-    build: .
+    build: ./backend
     ports:
       - "8000:8000"
     env_file:
-      - .env
+      - ./backend/.env
     environment:
       DATABASE_URL: postgresql+asyncpg://postgres:postgres@db:5432/filemanager
       MINIO_ENDPOINT: minio:9000
@@ -20,7 +20,14 @@ services:
       minio:
         condition: service_healthy
     volumes:
-      - .:/app
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:80"
+    restart: unless-stopped
+
 
   db:
     image: postgres:16-alpine

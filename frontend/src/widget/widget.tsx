@@ -1,5 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react';
-import { FiImage, FiFile, FiCheckSquare, FiMapPin, FiPaperclip, FiPlus, FiUpload, FiX } from 'react-icons/fi';
+import React, { useRef, useState } from 'react';
+import { FiImage, FiFile, FiCheckSquare, FiMapPin, FiPlus, FiUpload, FiX } from 'react-icons/fi';
 import './widget.css';
 
 const ACCEPTED_FILE_TYPES = {
@@ -36,34 +36,35 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files.length > 0) {
-      const file = files[0];
-      const isValidType = Object.entries(ACCEPTED_FILE_TYPES).some(([type, exts]) => {
-        const typePattern = new RegExp(`^${type.replace('*', '.*')}$`);
-        return typePattern.test(file.type) || exts.some(ext => file.name.toLowerCase().endsWith(ext));
-      });
-
-      if (!isValidType) {
-        onUploadError(new Error('File type not supported'));
-        return;
-      }
-
-      const MAX_SIZE = 10 * 1024 * 1024; // 10MB
-      if (file.size > MAX_SIZE) {
-        onUploadError(new Error('File is too large. Maximum size is 10MB.'));
-        return;
-      }
-
-      onUploadSuccess(file);
+      processFile(files[0]);
     }
-    if (e.target) {
-      e.target.value = '';
+    if (e.target) e.target.value = '';
+  };
+
+  const processFile = (file: File) => {
+    const isValidType = Object.entries(ACCEPTED_FILE_TYPES).some(([type, exts]) => {
+      const typePattern = new RegExp(`^${type.replace('*', '.*')}$`);
+      return typePattern.test(file.type) || exts.some(ext => file.name.toLowerCase().endsWith(ext));
+    });
+
+    if (!isValidType) {
+      onUploadError(new Error('File type not supported'));
+      return;
     }
+
+    const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+    if (file.size > MAX_SIZE) {
+      onUploadError(new Error('File is too large. Maximum size is 10MB.'));
+      return;
+    }
+
+    onUploadSuccess(file);
   };
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    if (!isDragging) setIsDragging(true);
+    setIsDragging(true);
   };
 
   const handleDragLeave = (e: React.DragEvent) => {
@@ -76,27 +77,10 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
-    
+
     const files = e.dataTransfer.files;
     if (files.length > 0) {
-      const file = files[0];
-      const isValidType = Object.entries(ACCEPTED_FILE_TYPES).some(([type, exts]) => {
-        const typePattern = new RegExp(`^${type.replace('*', '.*')}$`);
-        return typePattern.test(file.type) || exts.some(ext => file.name.toLowerCase().endsWith(ext));
-      });
-
-      if (!isValidType) {
-        onUploadError(new Error('File type not supported'));
-        return;
-      }
-
-      const MAX_SIZE = 10 * 1024 * 1024; // 10MB
-      if (file.size > MAX_SIZE) {
-        onUploadError(new Error('File is too large. Maximum size is 10MB.'));
-        return;
-      }
-
-      onUploadSuccess(file);
+      processFile(files[0]);
     }
   };
 
@@ -104,8 +88,8 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
     <div className="widget-menu">
       <div className="widget-menu-header">
         <h3>Add to board</h3>
-        <button 
-          className="widget-close-button" 
+        <button
+          className="widget-close-button"
           onClick={(e) => {
             e.stopPropagation();
             setIsOpen(false);
@@ -115,23 +99,17 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
           <FiX />
         </button>
       </div>
-      
+
       <div className="widget-menu-section">
         <h4>Upload</h4>
-        <button 
-          className="widget-menu-item" 
-          onClick={() => fileInputRef.current?.click()}
-        >
+        <button className="widget-menu-item" onClick={() => fileInputRef.current?.click()}>
           <FiImage className="widget-icon" />
           <div className="widget-menu-item-content">
             <span className="widget-menu-item-title">Photo or video</span>
             <span className="widget-menu-item-subtitle">JPG, PNG, GIF, MP4, WebM</span>
           </div>
         </button>
-        <button 
-          className="widget-menu-item" 
-          onClick={() => fileInputRef.current?.click()}
-        >
+        <button className="widget-menu-item" onClick={() => fileInputRef.current?.click()}>
           <FiFile className="widget-icon" />
           <div className="widget-menu-item-content">
             <span className="widget-menu-item-title">Document</span>
@@ -139,7 +117,7 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
           </div>
         </button>
       </div>
-      
+
       <div className="widget-menu-section">
         <h4>Create</h4>
         <button className="widget-menu-item">
@@ -157,7 +135,7 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
           </div>
         </button>
       </div>
-      
+
       <input
         ref={fileInputRef}
         type="file"
@@ -170,7 +148,7 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
   );
 
   return (
-    <div 
+    <div
       className={`widget-container ${isDragging ? 'widget-dragging' : ''} ${isOpen ? 'widget-menu-open' : ''}`}
       onDragOver={handleDragOver}
       onDragLeave={handleDragLeave}
@@ -182,7 +160,7 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
       }}
       aria-expanded={isOpen}
     >
-      <button 
+      <button
         className={`widget-trigger ${isOpen ? 'widget-trigger-active' : ''}`}
         onClick={(e) => {
           e.stopPropagation();
@@ -192,11 +170,11 @@ const FileUploadWidget: React.FC<FileUploadWidgetProps> = ({
       >
         <FiPlus className="widget-plus-icon" />
       </button>
-      
+
       <div className={`widget-menu-wrapper ${isOpen ? 'widget-menu-visible' : ''}`} onClick={(e) => e.stopPropagation()}>
         {renderMenu()}
       </div>
-      
+
       {isDragging && (
         <div className="widget-drop-zone" onClick={(e) => e.stopPropagation()}>
           <div className="widget-drop-content">
