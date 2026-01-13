@@ -1,0 +1,175 @@
+Загрузка файлов
+/api/v1/files/upload
+Parameters
+board_id *
+string($uuid)
+(query)
+folder_id
+string | (string | null)($uuid)
+(query)
+Request body
+files
+array<string>
+
+Responses
+200 [
+  {
+    "id": "455885e6-3d11-49f8-8b7f-5bebd59870df",
+    "original_name": "OTU_LR_3_2016.docx",
+    "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    "size": 6928190,
+    "folder_id": "88313ef7-6ddc-40f1-82f4-6f4306c7756f",
+    "board_id": "123e4567-e89b-12d3-a456-426614174000",
+    "is_favorite": false,
+    "url": "http://localhost:9000/board-files/88462569-5a45-4b89-9d3c-c8c7f8ebf6e6-OTU_LR_3_2016.docx",
+    "uploaded_at": "2026-01-09T14:12:19.924459Z"
+  }
+]
+
+422 {
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+
+Получение стуктуры файлов в системе
+/api/v1/files/tree/{board_id}
+board_id *
+string($uuid)
+(path)
+Responses
+200 {
+  "id": null,
+  "name": "root",
+  "folders": [
+    {
+      "id": "63d4826c-6ed3-4ebe-a09a-cfb235bb1fee",
+      "name": "Новая папка",
+      "folders": [],
+      "files": []
+    },
+    {
+      "id": "88313ef7-6ddc-40f1-82f4-6f4306c7756f",
+      "name": "Новая папка2",
+      "folders": [],
+      "files": [
+        {
+          "id": "455885e6-3d11-49f8-8b7f-5bebd59870df",
+          "name": "OTU_LR_3_2016.docx",
+          "mime_type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+          "size": 6928190,
+          "url": "http://localhost:9000/board-files/88462569-5a45-4b89-9d3c-c8c7f8ebf6e6-OTU_LR_3_2016.docx",
+          "is_favorite": false
+        }
+      ]
+    }
+  ],
+  "files": []
+}
+
+422 {
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+
+Создание новой папки
+/api/v1/files/folders
+Parameters
+board_id *
+string($uuid)
+(query)
+parent_id
+string | (string | null)($uuid)
+(query)
+name
+string
+(query)
+Responses
+200 {
+  "id": "88313ef7-6ddc-40f1-82f4-6f4306c7756f",
+  "name": "Новая папка2",
+  "parent_id": null
+}
+422 {
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+
+Переименование файла(item_type=file) или папки(item_type=folder)
+/api/v1/files/rename
+Parameters
+item_id *
+string($uuid)
+(query)
+name *
+string
+(query)
+item_type
+string
+(query)
+Responses
+200 {
+  "success": true
+}
+422 {
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+
+Удаление файла(item_type=file) или папки(item_type=folder)
+/api/v1/files/items/{item_id}
+Parameters
+item_id *
+string($uuid)
+(path)
+item_type
+string
+(query)
+Responses
+200 {
+  "success": true
+}
+422 {
+  "detail": [
+    {
+      "loc": [
+        "string",
+        0
+      ],
+      "msg": "string",
+      "type": "string"
+    }
+  ]
+}
+
