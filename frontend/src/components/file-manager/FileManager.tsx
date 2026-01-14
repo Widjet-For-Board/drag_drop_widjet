@@ -1,5 +1,5 @@
-import { useState, useEffect, useCallback } from 'react';
-import { FiFolder, FiFile, FiUpload, FiPlus, FiTrash2, FiEdit2, FiChevronRight, FiChevronDown, FiChevronUp, FiFolderPlus, FiX, FiDownload } from 'react-icons/fi';
+import { useState, useEffect } from 'react';
+import { FiFolder, FiFile, FiUpload, FiTrash2, FiEdit2, FiChevronRight, FiChevronUp, FiFolderPlus, FiX, FiDownload } from 'react-icons/fi';
 import axios from 'axios';
 
 interface FileItem {
@@ -10,6 +10,7 @@ interface FileItem {
   size?: number;
   createdAt: string;
   updatedAt: string;
+  url?: string;
 }
 
 const API_BASE_URL = 'http://localhost:8000/api/v1';
@@ -236,7 +237,7 @@ const FileManager = () => {
   };
 
   const handleCreateFolder = async () => {
-    const currentBoardId = boardId || '123e4567-e89b-12d3-a456-426614174000';
+    const currentBoardId = boardId;
 
     if (!newFolderName.trim()) {
       setError('Введите название папки');
@@ -377,33 +378,6 @@ const FileManager = () => {
     if (!currentPath) return null;
 
     const pathParts = currentPath.split('/').filter(Boolean);
-
-    return (
-        <div className="breadcrumbs">
-        <span
-            className="breadcrumb"
-            onClick={() => loadFiles('')}
-            style={{ cursor: 'pointer' }}
-        >
-          Home
-        </span>
-          {pathParts.map((part, index) => {
-            const path = `/${pathParts.slice(0, index + 1).join('/')}`;
-            return (
-                <span key={path} className="breadcrumb">
-              <FiChevronRight className="breadcrumb-separator" />
-              <span
-                  className="breadcrumb-link"
-                  onClick={() => loadFiles(path)}
-                  style={{ cursor: 'pointer' }}
-              >
-                {part}
-              </span>
-            </span>
-            );
-          })}
-        </div>
-    );
   };
 
   return (
