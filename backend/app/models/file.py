@@ -13,8 +13,8 @@ class File(Base):
     mime_type = Column(String, nullable=False)
     size = Column(Integer, nullable=False)
     folder_id = Column(UUID(as_uuid=True), ForeignKey("folders.id"), nullable=True)
-    board_id = Column(UUID(as_uuid=True), nullable=False, index=True)
-    owner_id = Column(UUID(as_uuid=True), nullable=False)
+    board_id = Column(Integer, nullable=False, index=True)  # Изменили на Integer
+    user_id = Column(Integer, nullable=False, index=True)   # Заменили owner_id на user_id
     is_favorite = Column(Boolean, default=False)
     uploaded_at = Column(DateTime(timezone=True), default=datetime.utcnow)
 

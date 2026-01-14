@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.v1.files import router as files_router
 from app.db.base import Base, engine
+from app.api.v1.widgets import router as widgets_router
 
 app = FastAPI(title="File Manager Backend")
 
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(files_router, prefix="/api/v1")
+app.include_router(widgets_router, prefix="/api/v1")
 
 @app.on_event("startup")
 async def on_startup():

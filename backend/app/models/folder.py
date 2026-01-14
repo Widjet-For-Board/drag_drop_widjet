@@ -9,8 +9,8 @@ class Folder(Base):
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     name = Column(String, default="Новая папка")
     parent_id = Column(UUID(as_uuid=True), ForeignKey("folders.id"), nullable=True)
-    board_id = Column(UUID(as_uuid=True), nullable=False, index=True)
-    owner_id = Column(UUID(as_uuid=True), nullable=False)
+    board_id = Column(Integer, nullable=False, index=True)  # Изменили на Integer
+    user_id = Column(Integer, nullable=False, index=True)   # Заменили owner_id на user_id
 
     children = relationship("Folder", backref="parent", remote_side=[id])
     files = relationship("File", back_populates="folder", cascade="all, delete-orphan")

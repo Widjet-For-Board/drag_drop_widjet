@@ -1,25 +1,39 @@
 {
-  "name": "miro",
-  "private": true,
-  "version": "0.0.0",
+  "name": "dnd_widjet",
+  "version": "1.0.1",
+  "description": "A React file manager component with drag and drop functionality",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
+  "main": "./dist/react-file-manager.umd.js",
+  "module": "./dist/react-file-manager.es.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "rimraf dist && tsc && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepublishOnly": "npm run build"
+  },
+  "peerDependencies": {
+    "react": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "dependencies": {
     "@types/react-resizable": "^3.0.8",
     "@xyflow/react": "^12.10.0",
     "axios": "^1.13.2",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
-    "react-resizable": "^3.0.5",
-    "vite-plugin-dts": "^4.5.4"
+    "react-resizable": "^3.0.5"
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.28.6",
     "@eslint/js": "^9.39.1",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
@@ -29,8 +43,27 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.24",
     "globals": "^16.5.0",
+    "rimraf": "^6.1.2",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
-  }
+    "vite": "^7.2.4",
+    "vite-plugin-dts": "^4.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Widjet-For-Board/drag_drop_widjet"
+  },
+  "keywords": [
+    "react",
+    "file-manager",
+    "drag-and-drop",
+    "file-upload",
+    "react-component"
+  ],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Widjet-For-Board/drag_drop_widjet/issues"
+  },
+  "homepage": "https://github.com/Widjet-For-Board/drag_drop_widjet"
 }

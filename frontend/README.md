@@ -1,53 +1,89 @@
-# React + TypeScript + Vite
+# React File Manager Component
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A customizable file manager component for React applications with drag and drop functionality.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 📁 File and folder management
+- 🖱️ Drag and drop support
+- 📤 File upload/download
+- 🗑️ Delete files and folders
+- ✏️ Rename files and folders
+- 📱 Responsive design
 
-## React Compiler
+## Installation
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install @yourusername/react-file-manager
+# or
+yarn add @yourusername/react-file-manager
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Usage
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
+```jsx
+import React from 'react';
+import { FileManager } from '@yourusername/react-file-manager';
+
+function App() {
+  const handleFileSelect = (file) => {
+    console.log('Selected file:', file);
+  };
+
+  return (
+    <div style={{ width: '100%', height: '600px' }}>
+      <FileManager 
+        apiUrl="http://your-api-url.com/api"
+        onFileSelect={handleFileSelect}
+      />
+    </div>
+  );
+}
+
+export default App;
+```
+
+## Props
+
+| Prop | Type | Required | Description |
+|------|------|----------|-------------|
+| `apiUrl` | string | Yes | Base URL for the file management API |
+| `onFileSelect` | function | No | Callback when a file is selected |
+| `theme` | object | No | Custom theme object for styling |
+| `allowedFileTypes` | string[] | No | Array of allowed file types (e.g., ['image/*', '.pdf']) |
+| `maxFileSize` | number | No | Maximum file size in bytes (default: 10MB) |
+
+## Development
+
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start development server:
+   ```bash
+   npm run dev
+   ```
+4. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## Publishing
+
+1. Update the version in `package.json`
+2. Build the package:
+   ```bash
+   npm run build
+   ```
+3. Publish to npm:
+   ```bash
+   npm publish --access public
+   ```
+
+## License
+
+MIT © [Your Name](https://github.com/yourusername)
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([

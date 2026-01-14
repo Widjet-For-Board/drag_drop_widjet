@@ -1,7 +1,5 @@
-import FileManager from './components/file-manager';
+import FileManager from './components/file-manager/FileManager';
 import './components/file-manager/FileManager.css';
-
-
 
 export default function App() {
   return (
